@@ -1,0 +1,24 @@
+Table Users {
+  Id,
+  FullName
+}
+
+Table Roles {
+  Id  
+  Name
+}
+
+Table Relationships {
+  Id,
+  UserId,
+  RoleId
+}
+
+Table Permissions {
+  Id, # Integer
+  Name, # String
+  Resources, # Array
+  ActionType, # string - READ or WRITE
+  PermitableId, # Integer
+  PermitableType, # String
+}
