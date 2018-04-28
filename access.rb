@@ -13,14 +13,14 @@ module Access
       resources: [resources]
     )
 
-    result = nil
+    result = []
     current_user.roles.map do |role|
-      result = true if role.permissions.where(
+      result << true if role.permissions.where(
         name: permission_name.to_s,
         resources: [resources]
       )
     end
-    result
+    result.include?(true)
   end
 
   module_function :granted?
@@ -39,13 +39,13 @@ file_permission = {
 caller = Access::UserPermissionService.new(current_user, server_permission)
 caller.perform
 
-caller = Access::RolePermissionService.new(user, file_permission, role)
+caller = Access::RolePermissionService.new(current_user, file_permission, role)
 caller.perform
 
-caller = Access::RolePermissionService.new(user, server_permission, 'Moderator')
+caller = Access::RolePermissionService.new(current_user, server_permission, 'Moderator')
 caller.perform
 
 Access.granted?(current_user, :reboot_server)
 Access.granted?(current_user, :write_to_file, ['example.txt'])
 
-# Caller.
+
